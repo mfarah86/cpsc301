@@ -7,7 +7,8 @@
 using namespace std;
 
 int numLines();
-void getRecords(int numRecords);
+void getRecords(int numRecords, Person record[]);
+void printRecords(int numRecords, Person record[]);
 
 int main()
 {
@@ -17,7 +18,9 @@ int main()
 
   Person record[numRecords];
 
-  getRecords(numRecords);
+  getRecords(numRecords, record);
+
+  printRecords(numRecords, record);
 
   return 0;
 }
@@ -32,17 +35,18 @@ int numLines()
   while(!inData.eof())
   {
     getline(inData, line);
-    cout << line << " " << endl;
+    //cout << line << " " << endl;
     numRecords++;
 
   }
-  cout << numRecords << endl;
+  numRecords--;
+  //cout << numRecords << endl;
   inData.close();
 
   return numRecords;
 }
 
-void getRecords(int numRecords)
+void getRecords(int numRecords, Person record[])
 {
   ifstream inData;
   string first;
@@ -56,6 +60,16 @@ void getRecords(int numRecords)
     inData >> last;
     full = first + " " + last;
     strcpy(record[i].Name, full.c_str());
+    inData >> record[i].Balance;
   }
   inData.close();
+}
+
+void printRecords(int numRecords, Person record[])
+{
+  cout << "Name  |  Balance" << endl;
+  for (int i=0; i < numRecords; i++)
+    {
+      cout << record[i].Name << " " << record[i].Balance << endl;
+    }
 }
