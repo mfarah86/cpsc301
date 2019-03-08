@@ -98,24 +98,30 @@ void printHighestPaid(vector<Person> &emp)
 
 void separateAndSave(vector<Person> &emp, vector<string> &cNames)
 {
+  float total;
   ofstream outFile;
   string temp1;
   string temp2;
-  for (int i = 0; i < emp.size(); i++)
+  for (int i = 0; i < cNames.size(); i++)
   {
-    temp1 = emp.at(i).getCompanyName();
-    for (int j = 0; j < cNames.size(); j++)
+    total = 0;
+    temp1 = cNames.at(i);
+    outFile.open(temp1+".txt", outFile.out | outFile.app);
+    for (int j = 0; j < emp.size(); j++)
     {
-      temp2 = cNames.at(j);
+      temp2 = emp.at(j).getCompanyName();
       if(temp1==temp2)
       {
-        outFile.open(temp1+".txt", outFile.out | outFile.app);
         outFile.precision(2);
-        outFile << " " << setw(20) << left << emp.at(i).fullName() << " " << setw(5) << left << emp.at(i).getEmployeeId()
-        << " " << setw(10) << left << emp.at(i).getCompanyName() << " " << setw(15) << left << fixed << emp.at(i).totalPay() << endl;
-        outFile.close();
-        break;
+        outFile << setw(20) << left << emp.at(j).fullName()
+        << " " << setw(5) << left << emp.at(j).getEmployeeId()
+        << " " << setw(10) << left << emp.at(j).getCompanyName()
+        << " $" << setw(15) << left << fixed << emp.at(j).totalPay()
+        << endl;
+        total = total + emp.at(j).totalPay();
       }
     }
+    outFile << "Total Pay: $" << total << endl;
+    outFile.close();
   }
 }
